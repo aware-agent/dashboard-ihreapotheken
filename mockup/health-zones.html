@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IhreApotheken - Gesundheitszonen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #f9f9f9; color: #1a1a1a; display: flex; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 240px; min-height: 100vh; background: #fff;
+    border-right: 1px solid #f0f0f0; display: flex; flex-direction: column;
+    padding: 0; position: fixed; top: 0; left: 0; bottom: 0;
+  }
+  .sidebar-header { padding: 20px 20px 16px; border-bottom: 1px solid #f0f0f0; }
+
+  .book-btn {
+    display: flex; align-items: center; gap: 8px; width: calc(100% - 32px);
+    margin: 16px; padding: 10px 14px; background: #CC1A1A; color: white;
+    border: none; border-radius: 8px; font-size: 13px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+  }
+
+  .nav { flex: 1; padding: 8px 0; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 20px; font-size: 14px; color: #555;
+    text-decoration: none; transition: background 0.15s;
+  }
+  .nav-item:hover { background: #f9f9f9; color: #1a1a1a; }
+  .nav-item.active { background: #FFF5F5; color: #CC1A1A; font-weight: 600; }
+  .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+
+  .sidebar-user {
+    padding: 16px 20px; border-top: 1px solid #f0f0f0;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .avatar {
+    width: 32px; height: 32px; background: #FCE4E4; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; color: #CC1A1A; flex-shrink: 0;
+  }
+  .user-info .name { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+  .user-info .email { font-size: 11px; color: #888; }
+
+  /* MAIN */
+  .main { margin-left: 240px; flex: 1; padding: 32px; }
+
+  .page-header { margin-bottom: 28px; }
+  .page-header h1 { font-size: 22px; font-weight: 700; color: #1a1a1a; }
+  .page-header p { font-size: 14px; color: #888; margin-top: 4px; }
+
+  /* Zone grid */
+  .zones-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    max-width: 860px;
+  }
+
+  .zone-card {
+    background: #fff; border: 1px solid #f0f0f0; border-radius: 12px;
+    padding: 22px 20px; display: flex; flex-direction: column; gap: 12px;
+    transition: border-color 0.15s; position: relative;
+  }
+  .zone-card:hover { border-color: #CC1A1A; }
+
+  .zone-top { display: flex; align-items: flex-start; gap: 14px; }
+  .zone-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; flex-shrink: 0;
+  }
+  .zone-meta { flex: 1; }
+  .zone-name { font-size: 14px; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }
+  .zone-status-row { display: flex; align-items: center; gap: 6px; }
+  .zone-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .dot-green { background: #4CAF50; }
+  .dot-red { background: #CC1A1A; }
+  .dot-yellow { background: #F59E0B; }
+  .zone-status { font-size: 12px; color: #888; }
+
+  .zone-pct {
+    font-size: 28px; font-weight: 700; color: #1a1a1a; line-height: 1;
+  }
+  .zone-pct.pct-green { color: #2e7d32; }
+  .zone-pct.pct-red { color: #CC1A1A; }
+  .zone-pct.pct-yellow { color: #B45309; }
+
+  /* Progress bar */
+  .zone-bar-bg {
+    height: 5px; background: #f0f0f0; border-radius: 3px; overflow: hidden;
+  }
+  .zone-bar-fill { height: 100%; border-radius: 3px; }
+
+  .zone-link {
+    font-size: 12px; font-weight: 600; color: #CC1A1A; text-decoration: none;
+    align-self: flex-end;
+  }
+  .zone-link:hover { text-decoration: underline; }
+  .zone-link-gray {
+    font-size: 12px; font-weight: 600; color: #888; text-decoration: none;
+    align-self: flex-end;
+  }
+  .zone-link-gray:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <a href="index.html" style="text-decoration:none;display:inline-flex;align-items:center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 54" height="38" style="display:block">
+        <rect x="1" y="1" width="50" height="50" rx="10" ry="10" fill="#CC1A1A"/>
+        <path d="M26 9 C18 9 12 15.5 12 23 C12 31.5 26 45 26 45 C26 45 40 31.5 40 23 C40 15.5 34 9 26 9 Z" fill="white"/>
+        <circle cx="26" cy="23" r="7.5" fill="#CC1A1A"/>
+        <text x="26" y="27.5" font-family="Arial,sans-serif" font-size="10" font-weight="900" fill="white" text-anchor="middle" dominant-baseline="auto">A</text>
+        <text font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="26" y="38" x="62">
+          <tspan fill="#1a1a1a">IhreApotheken</tspan><tspan fill="#CC1A1A">.de</tspan>
+        </text>
+      </svg>
+    </a>
+  </div>
+
+  <button class="book-btn">+ Test buchen</button>
+
+  <nav class="nav">
+    <a class="nav-item" href="index.html">
+      <span class="nav-icon">🏠</span> Dashboard
+    </a>
+    <a class="nav-item active" href="history.html">
+      <span class="nav-icon">🧪</span> Ergebnisse
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">⚡</span> Aktionen
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">📤</span> Hochladen
+    </a>
+    <a class="nav-item" href="history.html">
+      <span class="nav-icon">📊</span> Verlauf
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">🧬</span> Bio-Alter
+    </a>
+        <a class="nav-item" href="marketplace.html">
+        <span class="nav-icon">🛍️</span> Empfehlungen
+      </a>
+      </nav>
+
+  <div class="sidebar-user">
+    <div class="avatar">AS</div>
+    <div class="user-info">
+      <div class="name">Anna Schmidt</div>
+      <div class="email">a.schmidt@email.de</div>
+    </div>
+  </div>
+</aside>
+
+<!-- Main content -->
+<main class="main">
+  <div class="page-header">
+    <h1>Gesundheitszonen</h1>
+    <p>Ubersicht aller Bereiche aus deinem letzten Test vom 15. Marz 2026</p>
+  </div>
+
+  <div class="zones-grid">
+
+    <!-- Energie & Erschopfung: 67%, red -->
+    <div class="zone-card">
+      <div class="zone-top">
+        <div class="zone-icon" style="background:#FFF5F5">🔋</div>
+        <div class="zone-meta">
+          <div class="zone-name">Energie &amp; Erschopfung</div>
+          <div class="zone-status-row">
+            <div class="zone-dot dot-red"></div>
+            <span class="zone-status">2 von 5 Werten auffällig</span>
+          </div>
+        </div>
+        <div class="zone-pct pct-red">67%</div>
+      </div>
+      <div class="zone-bar-bg">
+        <div class="zone-bar-fill" style="width:67%;background:#CC1A1A;"></div>
+      </div>
+      <a class="zone-link" href="biomarker.html">Details -></a>
+    </div>
+
+    <!-- Herzgesundheit: 100%, green -->
+    <div class="zone-card">
+      <div class="zone-top">
+        <div class="zone-icon" style="background:#e8f5e9">❤️</div>
+        <div class="zone-meta">
+          <div class="zone-name">Herzgesundheit</div>
+          <div class="zone-status-row">
+            <div class="zone-dot dot-green"></div>
+            <span class="zone-status">Alle optimal</span>
+          </div>
+        </div>
+        <div class="zone-pct pct-green">100%</div>
+      </div>
+      <div class="zone-bar-bg">
+        <div class="zone-bar-fill" style="width:100%;background:#4CAF50;"></div>
+      </div>
+      <a class="zone-link-gray" href="#">Details -></a>
+    </div>
+
+    <!-- Hormone: 75%, yellow -->
+    <div class="zone-card">
+      <div class="zone-top">
+        <div class="zone-icon" style="background:#FFFBEB">⚗️</div>
+        <div class="zone-meta">
+          <div class="zone-name">Hormone</div>
+          <div class="zone-status-row">
+            <div class="zone-dot dot-yellow"></div>
+            <span class="zone-status">1 von 4 Werten auffällig</span>
+          </div>
+        </div>
+        <div class="zone-pct pct-yellow">75%</div>
+      </div>
+      <div class="zone-bar-bg">
+        <div class="zone-bar-fill" style="width:75%;background:#F59E0B;"></div>
+      </div>
+      <a class="zone-link-gray" href="#">Details -></a>
+    </div>
+
+    <!-- Stoffwechsel: 83%, green -->
+    <div class="zone-card">
+      <div class="zone-top">
+        <div class="zone-icon" style="background:#e8f5e9">🍬</div>
+        <div class="zone-meta">
+          <div class="zone-name">Stoffwechsel</div>
+          <div class="zone-status-row">
+            <div class="zone-dot dot-green"></div>
+            <span class="zone-status">Alle im Bereich</span>
+          </div>
+        </div>
+        <div class="zone-pct pct-green">83%</div>
+      </div>
+      <div class="zone-bar-bg">
+        <div class="zone-bar-fill" style="width:83%;background:#4CAF50;"></div>
+      </div>
+      <a class="zone-link-gray" href="#">Details -></a>
+    </div>
+
+    <!-- Immunsystem: 100%, green -->
+    <div class="zone-card">
+      <div class="zone-top">
+        <div class="zone-icon" style="background:#e8f5e9">🛡️</div>
+        <div class="zone-meta">
+          <div class="zone-name">Immunsystem</div>
+          <div class="zone-status-row">
+            <div class="zone-dot dot-green"></div>
+            <span class="zone-status">Alle optimal</span>
+          </div>
+        </div>
+        <div class="zone-pct pct-green">100%</div>
+      </div>
+      <div class="zone-bar-bg">
+        <div class="zone-bar-fill" style="width:100%;background:#4CAF50;"></div>
+      </div>
+      <a class="zone-link-gray" href="#">Details -></a>
+    </div>
+
+    <!-- Nahrstoffe: 83%, green -->
+    <div class="zone-card">
+      <div class="zone-top">
+        <div class="zone-icon" style="background:#e8f5e9">🌿</div>
+        <div class="zone-meta">
+          <div class="zone-name">Nahrstoffe</div>
+          <div class="zone-status-row">
+            <div class="zone-dot dot-green"></div>
+            <span class="zone-status">Alle im Bereich</span>
+          </div>
+        </div>
+        <div class="zone-pct pct-green">83%</div>
+      </div>
+      <div class="zone-bar-bg">
+        <div class="zone-bar-fill" style="width:83%;background:#4CAF50;"></div>
+      </div>
+      <a class="zone-link-gray" href="#">Details -></a>
+    </div>
+
+  </div>
+</main>
+</body>
+</html>

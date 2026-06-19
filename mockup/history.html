@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IhreApotheken - Meine Tests</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #f9f9f9; color: #1a1a1a; display: flex; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 240px; min-height: 100vh; background: #fff;
+    border-right: 1px solid #f0f0f0; display: flex; flex-direction: column;
+    padding: 0; position: fixed; top: 0; left: 0; bottom: 0;
+  }
+  .sidebar-header { padding: 20px 20px 16px; border-bottom: 1px solid #f0f0f0; }
+
+  .book-btn {
+    display: flex; align-items: center; gap: 8px; width: calc(100% - 32px);
+    margin: 16px; padding: 10px 14px; background: #CC1A1A; color: white;
+    border: none; border-radius: 8px; font-size: 13px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+  }
+
+  .nav { flex: 1; padding: 8px 0; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 20px; font-size: 14px; color: #555;
+    text-decoration: none; transition: background 0.15s;
+  }
+  .nav-item:hover { background: #f9f9f9; color: #1a1a1a; }
+  .nav-item.active { background: #FFF5F5; color: #CC1A1A; font-weight: 600; }
+  .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+
+  .sidebar-user {
+    padding: 16px 20px; border-top: 1px solid #f0f0f0;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .avatar {
+    width: 32px; height: 32px; background: #FCE4E4; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; color: #CC1A1A; flex-shrink: 0;
+  }
+  .user-info .name { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+  .user-info .email { font-size: 11px; color: #888; }
+
+  /* MAIN */
+  .main { margin-left: 240px; flex: 1; padding: 32px; max-width: 900px; }
+
+  .page-header-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 28px;
+  }
+  .page-header-row h1 { font-size: 22px; font-weight: 700; color: #1a1a1a; }
+
+  .btn-red {
+    padding: 10px 18px; background: #CC1A1A; color: white;
+    border: none; border-radius: 8px; font-size: 13px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+  }
+
+  /* Test entries */
+  .test-card {
+    background: #fff; border: 1px solid #f0f0f0; border-radius: 12px;
+    margin-bottom: 16px; overflow: hidden;
+  }
+
+  .test-header {
+    padding: 18px 22px; display: flex; align-items: center; gap: 14px;
+    cursor: pointer; transition: background 0.1s;
+  }
+  .test-header:hover { background: #fafafa; }
+
+  .test-icon {
+    width: 42px; height: 42px; background: #FFF5F5; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .test-icon-gray {
+    width: 42px; height: 42px; background: #f5f5f5; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+
+  .test-info { flex: 1; }
+  .test-title { font-size: 14px; font-weight: 700; color: #1a1a1a; margin-bottom: 3px; }
+  .test-meta { font-size: 12px; color: #888; }
+
+  .test-score {
+    text-align: right;
+  }
+  .score-num { font-size: 18px; font-weight: 700; color: #1a1a1a; }
+  .score-label { font-size: 11px; color: #888; }
+
+  .badge-gray {
+    background: #f0f0f0; color: #888; border-radius: 20px;
+    padding: 4px 10px; font-size: 11px; font-weight: 600;
+  }
+  .badge-upcoming {
+    background: #EFF6FF; color: #1D4ED8; border-radius: 20px;
+    padding: 4px 10px; font-size: 11px; font-weight: 600;
+  }
+
+  .details-link {
+    font-size: 12px; font-weight: 600; color: #CC1A1A;
+    text-decoration: none; white-space: nowrap;
+  }
+  .details-link:hover { text-decoration: underline; }
+
+  /* Expanded panel */
+  .test-expanded {
+    border-top: 1px solid #f0f0f0; padding: 0 22px 20px;
+  }
+  .expanded-title {
+    font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.07em; color: #aaa; padding: 16px 0 10px;
+  }
+
+  .biomarker-list { display: flex; flex-direction: column; gap: 8px; }
+  .biomarker-row {
+    display: flex; align-items: center; gap: 12px; padding: 10px 14px;
+    background: #f9f9f9; border-radius: 8px;
+  }
+  .bm-name { font-size: 13px; font-weight: 500; color: #1a1a1a; flex: 1; }
+  .bm-value { font-size: 13px; color: #888; }
+  .bm-badge {
+    padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 600;
+    white-space: nowrap;
+  }
+  .bm-optimal { background: #e8f5e9; color: #2e7d32; }
+  .bm-warn { background: #FFF5F5; color: #CC1A1A; }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <a href="index.html" style="text-decoration:none;display:inline-flex;align-items:center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 54" height="38" style="display:block">
+        <rect x="1" y="1" width="50" height="50" rx="10" ry="10" fill="#CC1A1A"/>
+        <path d="M26 9 C18 9 12 15.5 12 23 C12 31.5 26 45 26 45 C26 45 40 31.5 40 23 C40 15.5 34 9 26 9 Z" fill="white"/>
+        <circle cx="26" cy="23" r="7.5" fill="#CC1A1A"/>
+        <text x="26" y="27.5" font-family="Arial,sans-serif" font-size="10" font-weight="900" fill="white" text-anchor="middle" dominant-baseline="auto">A</text>
+        <text font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="26" y="38" x="62">
+          <tspan fill="#1a1a1a">IhreApotheken</tspan><tspan fill="#CC1A1A">.de</tspan>
+        </text>
+      </svg>
+    </a>
+  </div>
+
+  <button class="book-btn">+ Test buchen</button>
+
+  <nav class="nav">
+    <a class="nav-item" href="index.html">
+      <span class="nav-icon">🏠</span> Dashboard
+    </a>
+    <a class="nav-item active" href="history.html">
+      <span class="nav-icon">🧪</span> Ergebnisse
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">⚡</span> Aktionen
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">📤</span> Hochladen
+    </a>
+    <a class="nav-item active" href="history.html">
+      <span class="nav-icon">📊</span> Verlauf
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">🧬</span> Bio-Alter
+    </a>
+        <a class="nav-item" href="marketplace.html">
+        <span class="nav-icon">🛍️</span> Empfehlungen
+      </a>
+      </nav>
+
+  <div class="sidebar-user">
+    <div class="avatar">AS</div>
+    <div class="user-info">
+      <div class="name">Anna Schmidt</div>
+      <div class="email">a.schmidt@email.de</div>
+    </div>
+  </div>
+</aside>
+
+<!-- Main content -->
+<main class="main">
+  <div class="page-header-row">
+    <h1>Meine Tests</h1>
+    <button class="btn-red">+ Neuen Test buchen</button>
+  </div>
+
+  <!-- Test 1: 15. Marz 2026 - expanded -->
+  <div class="test-card">
+    <div class="test-header">
+      <div class="test-icon">🧪</div>
+      <div class="test-info">
+        <div class="test-title">Standard Panel</div>
+        <div class="test-meta">15. Marz 2026 · Apotheke Mitte, Berlin</div>
+      </div>
+      <div class="test-score">
+        <div class="score-num">9<span style="font-size:13px;color:#888;font-weight:400"> / 12</span></div>
+        <div class="score-label">optimal</div>
+      </div>
+      <a class="details-link" href="#" style="margin-left:16px">Details anzeigen -></a>
+    </div>
+
+    <!-- Expanded biomarker list -->
+    <div class="test-expanded">
+      <div class="expanded-title">Biomarker</div>
+      <div class="biomarker-list">
+
+        <div class="biomarker-row">
+          <span class="bm-name">Ferritin</span>
+          <span class="bm-value">22 µg/l</span>
+          <span class="bm-badge bm-warn">Erniedrigt</span>
+        </div>
+
+        <div class="biomarker-row">
+          <span class="bm-name">Vitamin D</span>
+          <span class="bm-value">41 ng/ml</span>
+          <span class="bm-badge bm-optimal">Optimal</span>
+        </div>
+
+        <div class="biomarker-row">
+          <span class="bm-name">TSH</span>
+          <span class="bm-value">1.8 mIU/l</span>
+          <span class="bm-badge bm-optimal">Optimal</span>
+        </div>
+
+        <div class="biomarker-row">
+          <span class="bm-name">LDL-Cholesterin</span>
+          <span class="bm-value">98 mg/dl</span>
+          <span class="bm-badge bm-optimal">Optimal</span>
+        </div>
+
+        <div class="biomarker-row">
+          <span class="bm-name">Magnesium</span>
+          <span class="bm-value">0.88 mmol/l</span>
+          <span class="bm-badge bm-optimal">Optimal</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Test 2: 3. Juli 2026 - upcoming -->
+  <div class="test-card">
+    <div class="test-header">
+      <div class="test-icon-gray">📅</div>
+      <div class="test-info">
+        <div class="test-title">Ferritin Re-Test</div>
+        <div class="test-meta">3. Juli 2026 · Apotheke Mitte, Berlin</div>
+      </div>
+      <span class="badge-upcoming">Gebucht</span>
+      <span class="badge-gray" style="margin-left:10px">Ausstehend</span>
+    </div>
+  </div>
+
+</main>
+</body>
+</html>
