@@ -31,7 +31,15 @@
   .left-panel {
     width: 480px; flex-shrink: 0;
     background: #FFF5F5; border-right: 1px solid #FCE4E4;
-    display: flex; flex-direction: column; padding: 48px 40px;
+    display: flex; flex-direction: column; padding: 0;
+    overflow: hidden;
+  }
+  .left-panel-img {
+    width: 100%; height: 220px; object-fit: cover; object-position: center;
+    display: block;
+  }
+  .left-panel-content {
+    padding: 36px 40px; flex: 1; display: flex; flex-direction: column;
   }
   .left-panel .eyebrow {
     font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
@@ -116,7 +124,7 @@
 <div class="page">
   <!-- Left panel -->
   <div class="left-panel">
-    <p class="eyebrow">Gesundheits-Dashboard</p>
+    <div class="left-panel-content"><p class="eyebrow">Gesundheits-Dashboard</p>
     <h1>Deine Blutwerte.<br><em>Verständlich erklärt.</em></h1>
     <p class="subtitle">Buche deinen Bluttest in deiner Apotheke, erhalte deine Ergebnisse digital und verstehe was dein Körper dir sagt.</p>
 
@@ -151,6 +159,7 @@
       </div>
     </div>
   </div>
+</div>
 
   <!-- Right: Login form -->
   <div class="right-panel">
