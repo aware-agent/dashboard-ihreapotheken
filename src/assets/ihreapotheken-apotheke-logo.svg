@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 44" width="220" height="44">
+  <circle cx="22" cy="22" r="20" fill="#D32F2F"/>
+  <text x="22" y="29" font-family="Arial,sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">A</text>
+  <text x="52" y="18" font-family="'Nunito Sans',Arial,sans-serif" font-size="13" font-weight="700" fill="#1A1A1A">IhreApotheken</text>
+  <text x="52" y="34" font-family="Arial,sans-serif" font-size="10" fill="#888888">Gesundheits-Dashboard</text>
+</svg>

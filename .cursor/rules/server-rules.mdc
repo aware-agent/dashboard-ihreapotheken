@@ -1,0 +1,12 @@
+---
+name: server-rules
+description: This is a new rule
+---
+
+# Overview
+
+Insert overview text here. The agent will only see this should they choose to apply the rule.
+
+---
+
+- Always install dependencies using @latest. Never specify exact package versions in package.json unless explicitly requested.

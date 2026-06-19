@@ -1,0 +1,22 @@
+// Shared components - single source of truth for reusable UI elements
+export { CircularProgressRing } from './CircularProgressRing';
+export type { RingSegment } from './CircularProgressRing';
+export { TrendIndicator, TrendArrow } from './TrendIndicator';
+export { HealthZoneCard } from './HealthZoneCard';
+export { StatCard, HorizontalStat } from './StatCard';
+export { BiomarkerStatusBadge } from './BiomarkerStatusBadge';
+export { BiomarkerList } from './BiomarkerList';
+export { BiomarkerSummaryCards } from './BiomarkerSummaryCards';
+export { HealthSummaryBar } from './HealthSummaryBar';
+export { BiomarkerDetailPanel, BiomarkerDetailPanelEmpty, BiomarkerDetailDrawer, ResponsiveBiomarkerDetail } from './BiomarkerDetailPanel';
+export { ArticleCard, ArticleCardSkeleton, ArticlesSection } from './ArticleCard';
+export { HorizontalScrollSection } from './HorizontalScrollSection';
+export { EmptyStateCard, CompactEmptyState, PlaceholderCard } from './EmptyStateCard';
+export { OutdatedResultsBanner, OutdatedResultsInline } from './OutdatedResultsBanner';
+export { ProFeatureGate } from './ProFeatureGate';
+export { StatusIndicatorIcon, StatusIndicatorOverlay } from './StatusIndicatorIcon';
+export { AskCompanionButton } from './AskCompanionButton';
+export { ResultTypeBadge } from './ResultTypeBadge';
+export { BioAgeGauge } from './BioAgeGauge';
+export { LanguageSelector } from './LanguageSelector';
+export { BookTestButton } from './BookTestButton';

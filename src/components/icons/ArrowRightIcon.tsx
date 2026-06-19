@@ -1,0 +1,25 @@
+import * as React from "react";
+
+interface ArrowRightIconProps extends React.SVGProps<SVGSVGElement> {
+  size?: number;
+}
+
+export const ArrowRightIcon = ({ size = 16, className, ...props }: ArrowRightIconProps) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    {...props}
+  >
+    <path
+      d="M10.1131 4C11.5153 5.03704 12.7748 6.24852 13.8603 7.60379C13.9534 7.72005 14 7.86002 14 8M10.1131 12C11.5153 10.963 12.7748 9.75148 13.8603 8.39621C13.9534 8.27995 14 8.13998 14 8M14 8H2"
+      stroke="currentColor"
+      strokeWidth="1.33333"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);

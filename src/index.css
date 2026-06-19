@@ -1,0 +1,505 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito Sans:wght@300;400;500;600;700&family=Nunito Sans+Dark:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito Sans:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Nunito Sans Font Face Declarations */
+@font-face {
+  font-family: "Nunito Sans";
+  src: url("/fonts/ABCDiatype-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Nunito Sans";
+  src: url("/fonts/ABCDiatype-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Nunito Sans";
+  src: url("/fonts/ABCDiatype-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Nunito Sans";
+  src: url("/fonts/ABCDiatype-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* IhreApotheken Design System
+   Colors in HSL format for Tailwind integration
+   Primary: #D32F2F (IhreApotheken Grün) → HSL: 93 49% 36%
+   Green:   #e05555               → HSL: 93 38% 50%
+   Grey:    #787878               → HSL: 0 0% 47%
+   Dark:    #2F2F2F               → HSL: 0 0% 18%
+*/
+
+@layer base {
+  :root {
+    /* Foundation Colors — IhreApotheken */
+    --foundation-white: 0 0% 100%;
+    --foundation-sodium: 210 20% 97%;
+    --foundation-grey500: 0 0% 47%;
+    --foundation-boron: 0 0% 18%;
+    --foundation-blue700: 207 100% 35%;
+    --foundation-blue200: 207 75% 70%;
+    --foundation-magnesium400: 0 64% 50%;
+    --foundation-manganese: 0 64% 95%;
+    --foundation-selenium: 0 30% 88%;
+    --foundation-red400: 356 100% 62%;
+    --foundation-green700: 93 49% 36%;
+    --foundation-yellow500: 36 100% 50%;
+
+    /* Background Colors */
+    --bg-white: 0 0% 100%;
+    --bg-sodium: 210 20% 97%;
+    --bg-green50: 93 38% 94%;
+    --bg-red50: 348 100% 96%;
+    --bg-yellow50: 36 100% 94%;
+    --bg-blue50: 207 100% 96%;
+    --bg-magnesium50: 93 49% 94%;
+    --bg-linen: 210 15% 97%;
+
+    /* Text Colors */
+    --text-white: 0 0% 100%;
+    --text-boron: 0 0% 18%;
+    --text-grey500: 0 0% 47%;
+    --text-danger: 24 100% 56%;
+    --text-yellow500: 36 100% 50%;
+    --text-green700: 93 49% 36%;
+    --text-magnesium400: 93 49% 36%;
+    --text-red400: 356 100% 62%;
+    --text-blue700: 207 100% 35%;
+
+    /* Health Markers */
+    --hm-norange: 270 1% 91%;
+    --hm-inrange200: 93 49% 55%;
+    --hm-inrange50: 93 49% 92%;
+    --hm-outofrange: 42 90% 71%;
+    --hm-outofrange-bg: 45 100% 94%;
+    --hm-danger: 24 96% 78%;
+    --hm-danger-bg: 27 100% 96%;
+    --hm-selenium: 207 20% 83%;
+    --hm-optimal50: 93 49% 92%;
+    --hm-optimal100: 93 49% 55%;
+    --hm-optimal200: 93 49% 36%;
+    --hm-normal50: 90 100% 92%;
+    --hm-normal100: 90 77% 65%;
+    --hm-normal200: 82 100% 36%;
+    --hm-moderaterisk50: 49 100% 92%;
+    --hm-moderaterisk75: 49 100% 80%;
+    --hm-moderaterisk100: 36 100% 65%;
+    --hm-moderaterisk200: 36 100% 50%;
+    --hm-highlow50: 25 80% 94%;
+    --hm-highlow100: 25 85% 62%;
+    --hm-highlow200: 25 90% 50%;
+    --hm-high50: 356 100% 96%;
+    --hm-high100: 356 76% 60%;
+    --hm-high200: 356 100% 50%;
+    --hm-danger50: 12 100% 96%;
+    --hm-danger100: 16 100% 66%;
+    --hm-danger200: 12 100% 57%;
+
+    /* Status Card Backgrounds */
+    --status-optimal-bg: 152 88% 94%;
+    --status-optimal-text: 155 90% 31%;
+    --status-inrange-bg: 83 100% 92%;
+    --status-inrange-text: 82 100% 36%;
+    --status-attention-bg: 35 100% 94%;
+    --status-attention-text: 36 100% 50%;
+    --status-nodata-bg: 210 100% 95%;
+    --status-nodata-text: 210 50% 40%;
+    --hz-blood: 0 100% 83%;
+    --hz-blood600: 0 100% 89%;
+    --hz-blood300: 0 100% 95%;
+    --hz-heart: 289 72% 56%;
+    --hz-heart600: 289 68% 72%;
+    --hz-heart300: 289 68% 85%;
+    --hz-hormones: 224 91% 62%;
+    --hz-hormones600: 224 91% 77%;
+    --hz-hormones300: 224 91% 89%;
+    --hz-immunity: 201 82% 76%;
+    --hz-immunity600: 201 82% 86%;
+    --hz-immunity300: 201 82% 93%;
+    --hz-kidneys: 338 100% 73%;
+    --hz-kidneys600: 338 100% 84%;
+    --hz-kidneys300: 338 100% 92%;
+    --hz-liver: 183 97% 37%;
+    --hz-liver600: 183 55% 62%;
+    --hz-liver300: 183 55% 81%;
+    --hz-metabolism: 259 80% 73%;
+    --hz-metabolism600: 259 80% 84%;
+    --hz-metabolism300: 259 80% 92%;
+    --hz-minerals: 161 55% 69%;
+    --hz-minerals600: 161 55% 81%;
+    --hz-minerals300: 161 55% 90%;
+    --hz-vitamins: 295 100% 78%;
+    --hz-vitamins600: 295 100% 87%;
+    --hz-vitamins300: 295 100% 93%;
+
+    /* Shadows */
+    --shadow-primary: 240 1% 58%;
+    --shadow-dark: 0 0% 0%;
+
+    /* Gradients (defined as full gradient strings) */
+    --gradient-rainbow: linear-gradient(
+      90deg,
+      #ffd660 -11.63%,
+      #ff88bd 12.73%,
+      #ba83fa 36.56%,
+      #878bf1 57.5%,
+      #66a9ff 88.46%,
+      #5effb2 107.18%
+    );
+
+    /* Semantic mappings for shadcn compatibility */
+    --background: 30 15% 97%;   /* #F7F5F2 warmes Off-White */
+    --foreground: var(--text-boron);
+    --card: 0 0% 100%;
+    --card-foreground: var(--text-boron);
+    --popover: var(--bg-white);
+    --popover-foreground: var(--text-boron);
+    --primary: 93 49% 36%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: var(--foundation-sodium);
+    --secondary-foreground: var(--text-boron);
+    --muted: 0 0% 97%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 93 49% 36%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: var(--foundation-red400);
+    --destructive-foreground: var(--text-white);
+    --border: 0 0% 88%;
+    --input: var(--foundation-selenium);
+    --ring: 93 49% 36%;
+    --radius: 0.625rem;
+    --font-serif: "Nunito Sans Dark", sans-serif;
+
+    /* Component-specific tokens */
+    --history-border: 207 20% 83%;
+
+    /* Sidebar — IhreApotheken Weiß (pharmazeutisch) */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 47%;
+    --sidebar-primary: 93 49% 36%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 93 49% 94%;
+    --sidebar-accent-foreground: 93 49% 36%;
+    --sidebar-border: 0 0% 91%;
+    --sidebar-ring: 93 49% 36%;
+    --sidebar-muted: 0 0% 60%;
+  }
+
+  .dark {
+    --background: var(--foundation-boron);
+    --foreground: var(--text-white);
+    --card: 0 0% 8%;
+    --card-foreground: var(--text-white);
+    --popover: 0 0% 8%;
+    --popover-foreground: var(--text-white);
+    --primary: var(--foundation-magnesium400);
+    --primary-foreground: var(--text-white);
+    --secondary: 0 0% 15%;
+    --secondary-foreground: var(--text-white);
+    --muted: 0 0% 15%;
+    --muted-foreground: var(--foundation-selenium);
+    --accent: var(--foundation-magnesium400);
+    --accent-foreground: var(--text-white);
+    --destructive: var(--foundation-red400);
+    --destructive-foreground: var(--text-white);
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: var(--foundation-blue700);
+
+    /* Component-specific tokens */
+    --history-border: 0 0% 20%;
+
+    --sidebar-background: 0 0% 8%;
+    --sidebar-foreground: var(--text-white);
+    --sidebar-primary: var(--foundation-blue700);
+    --sidebar-primary-foreground: var(--text-white);
+    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent-foreground: var(--text-white);
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: var(--foundation-blue700);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-[#787878] font-sans antialiased;
+  }
+
+  /* ─── Typography System ───────────────────────────────────────────────────
+   Concept: Playfair Display = H1 page title only (editorial anchor).
+   Nunito Sans = everything else (UI labels, numbers, body, sections).
+   Section labels → uppercase, letter-spaced, 11px (Vercel/Linear pattern).
+   Numbers → weight 300 (thin), tabular-nums for data readability.
+   ──────────────────────────────────────────────────────────────────────── */
+
+  /* Premium Typography System */
+  .title-hero {
+    font-family: 'Lora', serif;
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #1a1a1a;
+  }
+
+  /* Page title */
+  .title-xl {
+    font-family: 'Lora', serif;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  /* Sub-page title */
+  .title-lg {
+    font-family: 'Lora', serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  /* Section heading — ALL-CAPS, spaced */
+  .title-md {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 16px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #D32F2F;
+  }
+
+  /* Card title */
+  .title-sm {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: -0.01em;
+  }
+
+  /* Small label heading */
+  .title-xs {
+    @apply font-sans text-[12px] font-semibold leading-[16px];
+  }
+
+  /* Button labels */
+  .button-lg {
+    @apply font-sans text-[14px] font-semibold leading-[20px] tracking-[-0.01em];
+  }
+
+  .button-md {
+    @apply font-sans text-[13px] font-medium leading-[18px];
+  }
+
+  .button-sm {
+    @apply font-sans text-[11px] font-medium leading-[16px];
+  }
+
+  /* Body text */
+  .body-lg {
+    @apply font-sans text-[14px] font-normal leading-[22px];
+  }
+
+  .body-md {
+    @apply font-sans text-[13px] font-normal leading-[20px];
+  }
+
+  .body-sm {
+    @apply font-sans text-[12px] font-normal leading-[18px];
+  }
+
+  /* Metadata / supporting labels */
+  .caption-lg {
+    @apply font-sans text-[13px] font-medium leading-[18px];
+  }
+
+  .caption-md {
+    @apply font-sans text-[11px] font-medium leading-[16px];
+  }
+
+  .caption-sm {
+    @apply font-sans text-[10px] font-medium leading-[14px] tracking-[0.02em];
+  }
+
+  /* Data Number Hero */
+  .data-hero {
+    font-family: 'Lora', serif;
+    font-size: 56px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: #1a1a1a;
+  }
+
+  /* Data numbers — thin weight, tabular */
+  .data-xl {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .data-lg {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  .data-md {
+    @apply font-sans text-[20px] font-light leading-[28px] tabular-nums tracking-[-0.01em];
+  }
+}
+
+@layer utilities {
+  /* Shadow utilities */
+  .shadow-primary {
+    box-shadow: 0px 0px 20px hsla(var(--shadow-primary), 0.25);
+  }
+
+  .shadow-dark {
+    box-shadow: 0px 0px 20px hsla(var(--shadow-dark), 0.12);
+  }
+
+  .shadow-focus-primary {
+    box-shadow: 0px 0px 2px hsl(207, 100%, 35%);
+  }
+
+  .shadow-focus-error {
+    box-shadow: 0px 0px 2px hsl(var(--foundation-red400));
+  }
+
+  .shadow-inset {
+    box-shadow: inset 0px 1px 0px hsl(var(--foundation-manganese));
+  }
+
+  /* Gradient utilities */
+  .gradient-rainbow {
+    background: linear-gradient(
+      90deg,
+      #ffd660 -11.63%,
+      #ff88bd 12.73%,
+      #ba83fa 36.56%,
+      #878bf1 57.5%,
+      #66a9ff 88.46%,
+      #5effb2 107.18%
+    );
+  }
+
+  .gradient-rainbow-text {
+    background: linear-gradient(
+      90deg,
+      #ffd660 -11.63%,
+      #ff88bd 12.73%,
+      #ba83fa 36.56%,
+      #878bf1 57.5%,
+      #66a9ff 88.46%,
+      #5effb2 107.18%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Custom scrollbar for sidebar */
+.sidebar-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--foundation-selenium));
+  border-radius: 2px;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--foundation-grey500));
+}
+
+.btn-ihreapotheken {
+  background: hsl(207, 100%, 35%);
+  color: white;
+  border-radius: 9999px;
+  padding: 0.375rem 1rem;
+  font-weight: 600;
+  transition: background 150ms;
+}
+.btn-ihreapotheken:hover {
+  background: hsl(207, 100%, 30%);
+}
+
+/* IhreApotheken Brand Utilities */
+.ihreapotheken-card {
+  background: white;
+  border: 1px solid #c5ddf0;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 4px rgba(0, 105, 180, 0.06);
+}
+.ihreapotheken-card-tint {
+  background: #ebf5fd;
+  border: 1px solid #c5ddf0;
+  border-radius: 0.75rem;
+}
+
+/* IhreApotheken Green Utilities */
+.text-ihreapotheken-green { color: #D32F2F; }
+.bg-ihreapotheken-green { background-color: #D32F2F; }
+.bg-ihreapotheken-green-light { background-color: #FDEAEA; }
+.border-ihreapotheken-green { border-color: #D32F2F; }
+.text-ihreapotheken-blue { color: #D32F2F; }
+.bg-ihreapotheken-blue { background-color: #D32F2F; }
+.bg-ihreapotheken-blue-light { background-color: #e6f2fb; }
+
+/* Glassmorphism Utilities */
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+.glass-dark {
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Photo card overlay */
+.photo-overlay {
+  background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0) 100%);
+}
+
+/* IhreApotheken Green Gradient */
+.ihreapotheken-gradient {
+  background: linear-gradient(135deg, #4a8520 0%, #D32F2F 50%, #7dc93f 100%);
+}

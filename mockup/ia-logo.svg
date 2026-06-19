@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 60" width="260" height="60">
+  <!-- Red rounded square icon -->
+  <rect x="0" y="4" width="52" height="52" rx="10" ry="10" fill="#CC1A1A"/>
+  <!-- Location pin shape (white) -->
+  <path d="M26 13 C18 13 13 19 13 26 C13 34 26 47 26 47 C26 47 39 34 39 26 C39 19 34 13 26 13 Z" fill="white"/>
+  <!-- Inner circle cutout -->
+  <circle cx="26" cy="26" r="7" fill="#CC1A1A"/>
+  <!-- A letter inside circle -->
+  <text x="26" y="30" font-family="Arial,sans-serif" font-size="9" font-weight="800" fill="white" text-anchor="middle">A</text>
+  <!-- Wordmark -->
+  <text x="64" y="40" font-family="'Arial Black',Arial,sans-serif" font-size="28" font-weight="900" fill="#1a1a1a">IhreApotheken</text>
+  <text x="64" y="40" font-family="'Arial Black',Arial,sans-serif" font-size="28" font-weight="900" fill="#1a1a1a">
+    <tspan fill="#1a1a1a">IhreApotheken</tspan><tspan fill="#CC1A1A">.de</tspan>
+  </text>
+</svg>

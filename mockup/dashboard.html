@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IhreApotheken - Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #f9f9f9; color: #1a1a1a; display: flex; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 240px; min-height: 100vh; background: #fff;
+    border-right: 1px solid #f0f0f0; display: flex; flex-direction: column;
+    padding: 0; position: fixed; top: 0; left: 0; bottom: 0;
+  }
+  .sidebar-header {
+    padding: 20px 20px 16px; border-bottom: 1px solid #f0f0f0;
+  }
+  .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+  .logo-icon {
+    width: 32px; height: 32px; background: #CC0000; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: white; font-size: 16px;
+  }
+  .logo-text { font-size: 15px; font-weight: 700; color: #1a1a1a; }
+  .logo-text span { color: #CC0000; }
+
+  .book-btn {
+    display: flex; align-items: center; gap: 8px; width: calc(100% - 32px);
+    margin: 16px; padding: 10px 14px; background: #CC0000; color: white;
+    border: none; border-radius: 8px; font-size: 13px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+  }
+
+  .nav { flex: 1; padding: 8px 0; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 20px; font-size: 14px; color: #555;
+    text-decoration: none; border-radius: 0; transition: background 0.15s;
+    cursor: pointer;
+  }
+  .nav-item:hover { background: #f9f9f9; color: #1a1a1a; }
+  .nav-item.active { background: #FFF5F5; color: #CC0000; font-weight: 600; }
+  .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+
+  .sidebar-user {
+    padding: 16px 20px; border-top: 1px solid #f0f0f0;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .avatar {
+    width: 32px; height: 32px; background: #FCE4E4; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; color: #CC0000; flex-shrink: 0;
+  }
+  .user-info .name { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+  .user-info .email { font-size: 11px; color: #888; }
+
+  /* ── MAIN ── */
+  .main { margin-left: 240px; flex: 1; padding: 32px; }
+
+  .page-header { margin-bottom: 28px; }
+  .page-header h1 { font-size: 22px; font-weight: 700; color: #1a1a1a; }
+  .page-header p { font-size: 14px; color: #888; margin-top: 4px; }
+
+  /* Alert banner */
+  .alert-banner {
+    background: #FFF5F5; border: 1px solid #FCE4E4; border-radius: 10px;
+    padding: 14px 18px; display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .alert-content { display: flex; align-items: center; gap: 10px; }
+  .alert-icon { font-size: 18px; }
+  .alert-text { font-size: 13px; color: #555; }
+  .alert-text strong { color: #CC0000; }
+  .alert-btn {
+    padding: 8px 16px; background: #CC0000; color: white; border: none;
+    border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer;
+    font-family: inherit; white-space: nowrap;
+  }
+
+  /* Metric cards row */
+  .cards-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+
+  .card {
+    background: #fff; border: 1px solid #f0f0f0; border-radius: 12px;
+    padding: 20px; position: relative; overflow: hidden;
+  }
+  .card-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 12px; }
+  .card-value { font-size: 36px; font-weight: 700; color: #1a1a1a; line-height: 1; }
+  .card-value .unit { font-size: 14px; color: #888; font-weight: 400; margin-left: 4px; }
+  .card-sub { font-size: 13px; color: #555; margin-top: 6px; }
+  .card-badge {
+    display: inline-block; padding: 3px 8px; border-radius: 20px;
+    font-size: 11px; font-weight: 600; margin-top: 10px;
+  }
+  .badge-good { background: #e8f5e9; color: #2e7d32; }
+  .badge-warn { background: #FFF5F5; color: #CC0000; }
+
+  .card-donut {
+    position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+  }
+  svg.donut { transform: rotate(-90deg); }
+
+  /* Health Zones */
+  .section-title { font-size: 15px; font-weight: 700; color: #1a1a1a; margin-bottom: 14px; }
+  .zones-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+  .zone-card {
+    background: #fff; border: 1px solid #f0f0f0; border-radius: 10px;
+    padding: 16px; display: flex; align-items: center; gap: 12px; cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .zone-card:hover { border-color: #CC0000; }
+  .zone-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+  }
+  .zone-name { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+  .zone-status { font-size: 12px; color: #888; margin-top: 2px; }
+  .zone-dot {
+    width: 8px; height: 8px; border-radius: 50%; margin-left: auto; flex-shrink: 0;
+  }
+  .dot-green { background: #4CAF50; }
+  .dot-red { background: #CC0000; }
+  .dot-yellow { background: #F59E0B; }
+
+  /* Recommendation banner */
+  .rec-card {
+    background: #fff; border: 1px solid #f0f0f0; border-radius: 12px;
+    padding: 20px; display: flex; align-items: flex-start; gap: 16px;
+  }
+  .rec-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
+  .rec-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #CC0000; margin-bottom: 6px; }
+  .rec-title { font-size: 15px; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }
+  .rec-desc { font-size: 13px; color: #666; line-height: 1.5; }
+  .rec-action {
+    display: inline-block; margin-top: 12px; padding: 9px 16px;
+    background: #CC0000; color: white; border-radius: 7px;
+    font-size: 13px; font-weight: 600; text-decoration: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <a href="#" style="text-decoration:none;display:inline-flex;align-items:center;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 54" height="38" style="display:block">
+  <!-- Red rounded square -->
+  <rect x="1" y="1" width="50" height="50" rx="10" ry="10" fill="#CC1A1A"/>
+  <!-- White location pin -->
+  <path d="M26 9 C18 9 12 15.5 12 23 C12 31.5 26 45 26 45 C26 45 40 31.5 40 23 C40 15.5 34 9 26 9 Z" fill="white"/>
+  <!-- Inner red circle -->
+  <circle cx="26" cy="23" r="7.5" fill="#CC1A1A"/>
+  <!-- White A inside -->
+  <text x="26" y="27.5" font-family="Arial,sans-serif" font-size="10" font-weight="900" fill="white" text-anchor="middle" dominant-baseline="auto">A</text>
+  <!-- Wordmark: IhreApotheken in black, .de in red -->
+  <text font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="26" y="38" x="62">
+    <tspan fill="#1a1a1a">IhreApotheken</tspan><tspan fill="#CC1A1A">.de</tspan>
+  </text>
+</svg></a>
+  </div>
+
+  <button class="book-btn">+ Test buchen</button>
+
+  <nav class="nav">
+    <a class="nav-item active" href="#">
+      <span class="nav-icon">🏠</span> Dashboard
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">🧪</span> Ergebnisse
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">⚡</span> Aktionen
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">📤</span> Hochladen
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">📊</span> Verlauf
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">🧬</span> Bio-Alter
+    </a>
+  </nav>
+
+  <div class="sidebar-user">
+    <div class="avatar">AS</div>
+    <div class="user-info">
+      <div class="name">Anna Schmidt</div>
+      <div class="email">a.schmidt@email.de</div>
+    </div>
+  </div>
+</aside>
+
+<!-- Main content -->
+<main class="main">
+  <div class="page-header">
+    <h1>Guten Morgen, Anna</h1>
+    <p>Letzter Test: 15. Mai 2026 · Apotheke Mitte, Berlin</p>
+  </div>
+
+  <!-- Alert -->
+  <div class="alert-banner">
+    <div class="alert-content">
+      <span class="alert-icon">⏰</span>
+      <span class="alert-text">Dein <strong>Ferritin-Wert</strong> war niedrig. In 2 Wochen ist ein Re-Test empfohlen.</span>
+    </div>
+    <button class="alert-btn">Jetzt buchen</button>
+  </div>
+
+  <!-- Metric cards -->
+  <div class="cards-row">
+    <!-- Score -->
+    <div class="card">
+      <div class="card-label">Letzter Test</div>
+      <div class="card-value">9<span class="unit">/ 12</span></div>
+      <div class="card-sub">Werte im optimalen Bereich</div>
+      <span class="card-badge badge-good">3 im Blick behalten</span>
+      <div class="card-donut">
+        <svg class="donut" width="56" height="56" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="22" fill="none" stroke="#f0f0f0" stroke-width="5"/>
+          <circle cx="28" cy="28" r="22" fill="none" stroke="#CC0000" stroke-width="5"
+            stroke-dasharray="104 34" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+    <!-- Ferritin highlight -->
+    <div class="card">
+      <div class="card-label">Auffalliger Wert</div>
+      <div class="card-value">22<span class="unit">µg/l</span></div>
+      <div class="card-sub">Ferritin · Optimal: 30-200 µg/l</div>
+      <span class="card-badge badge-warn">Leicht erniedrigt</span>
+    </div>
+    <!-- Re-test -->
+    <div class="card">
+      <div class="card-label">Naechster Re-Test</div>
+      <div class="card-value" style="font-size:22px;margin-top:4px">3. Juli</div>
+      <div class="card-sub">Ferritin-Check · Apotheke Mitte</div>
+      <span class="card-badge badge-warn">In 14 Tagen</span>
+    </div>
+  </div>
+
+  <!-- Health Zones -->
+  <div class="section-title">Gesundheitszonen</div>
+  <div class="zones-grid">
+    <div class="zone-card">
+      <div class="zone-icon" style="background:#FFF5F5">🔋</div>
+      <div>
+        <div class="zone-name">Energie & Erschopfung</div>
+        <div class="zone-status">2 von 5 Werten auffällig</div>
+      </div>
+      <div class="zone-dot dot-red"></div>
+    </div>
+    <div class="zone-card">
+      <div class="zone-icon" style="background:#e8f5e9">❤️</div>
+      <div>
+        <div class="zone-name">Herzgesundheit</div>
+        <div class="zone-status">Alle Werte optimal</div>
+      </div>
+      <div class="zone-dot dot-green"></div>
+    </div>
+    <div class="zone-card">
+      <div class="zone-icon" style="background:#e8f5e9">⚖️</div>
+      <div>
+        <div class="zone-name">Hormone</div>
+        <div class="zone-status">Alle Werte optimal</div>
+      </div>
+      <div class="zone-dot dot-green"></div>
+    </div>
+    <div class="zone-card">
+      <div class="zone-icon" style="background:#FFF9EC">🍬</div>
+      <div>
+        <div class="zone-name">Stoffwechsel</div>
+        <div class="zone-status">1 Wert grenzwertig</div>
+      </div>
+      <div class="zone-dot dot-yellow"></div>
+    </div>
+    <div class="zone-card">
+      <div class="zone-icon" style="background:#e8f5e9">🛡️</div>
+      <div>
+        <div class="zone-name">Immunsystem</div>
+        <div class="zone-status">Alle Werte optimal</div>
+      </div>
+      <div class="zone-dot dot-green"></div>
+    </div>
+    <div class="zone-card">
+      <div class="zone-icon" style="background:#e8f5e9">🌿</div>
+      <div>
+        <div class="zone-name">Nahrstoffe</div>
+        <div class="zone-status">Alle Werte optimal</div>
+      </div>
+      <div class="zone-dot dot-green"></div>
+    </div>
+  </div>
+
+  <!-- OTC Recommendation -->
+  <div class="section-title">Empfehlung fur dich</div>
+  <div class="rec-card">
+    <span class="rec-icon">💊</span>
+    <div>
+      <div class="rec-label">Basierend auf deinem Ferritin-Wert</div>
+      <div class="rec-title">Ferrosanol duodenal 40mg</div>
+      <div class="rec-desc">Weil dein Ferritin bei 22 µg/l liegt (optimal: 30-200 µg/l), empfehlen wir Ferrosanol duodenal 40mg - gut verträglich und mit hoher Bioverfügbarkeit. 1x täglich zum Frühstück, 6-8 Wochen. Erhältlich in deiner Apotheke Mitte, Berlin.</div>
+      <a href="#" class="rec-action">In der Apotheke reservieren</a>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

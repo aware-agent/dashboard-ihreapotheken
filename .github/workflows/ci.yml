@@ -1,0 +1,57 @@
+name: aware-llm CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: aware-llm
+        shell: bash
+
+    env:
+      NODE_ENV: test
+      OPENAI_API_KEY: test-openai-key-1234567890
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.6
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Lint
+        run: bun run lint
+
+      - name: Format check
+        run: bun run format:check
+
+      - name: Typecheck
+        run: bun run typecheck
+        continue-on-error: false
+
+      - name: Build
+        run: bun run build
+        continue-on-error: false
+
+      - name: Tests
+        run: bun test
+        continue-on-error: false
+
+      - name: 'Notify Vercel'
+        uses: 'vercel/repository-dispatch/actions/status@v1'
+        if: always()  # This ensures it runs even if previous steps failed
+        with:
+          name: 'Vercel - aware-llm: lint and format'
